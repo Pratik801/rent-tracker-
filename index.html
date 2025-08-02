@@ -94,6 +94,7 @@
   <h1>Rental & Electricity Bills - Aug 2025</h1>
 
   <div class="dashboard">
+
     <!-- Tenant 1 -->
     <div class="card">
       <h2>Ram Pawar (Room 1)</h2>
@@ -108,11 +109,51 @@
       </div>
     </div>
 
-    <!-- Add more tenant cards like this below -->
+    <!-- Tenant 2 -->
+    <div class="card">
+      <h2>Ravi Kale (Room 2)</h2>
+      <div class="info">Rent: ₹4200</div>
+      <div class="info">Electricity: ₹800</div>
+      <div class="info paid">Status: Paid</div>
+      <button class="button" onclick="generatePDF('Ravi Kale', 'Room 2', 4200, 800)">Download Receipt</button>
+      <button class="toggle-history" onclick="toggleHistory(this)">View History</button>
+      <div class="history">
+        <div class="history-item">Jul 2025: ₹4200 + ₹700 (Paid)</div>
+        <div class="history-item">Jun 2025: ₹4200 + ₹600 (Paid)</div>
+      </div>
+    </div>
+
+    <!-- Tenant 3 -->
+    <div class="card">
+      <h2>Swapnil Desai (Room 3)</h2>
+      <div class="info">Rent: ₹3900</div>
+      <div class="info">Electricity: ₹650</div>
+      <div class="info paid">Status: Paid</div>
+      <button class="button" onclick="generatePDF('Swapnil Desai', 'Room 3', 3900, 650)">Download Receipt</button>
+      <button class="toggle-history" onclick="toggleHistory(this)">View History</button>
+      <div class="history">
+        <div class="history-item">Jul 2025: ₹3900 + ₹620 (Paid)</div>
+        <div class="history-item">Jun 2025: ₹3900 + ₹580 (Paid)</div>
+      </div>
+    </div>
+
+    <!-- Tenant 4 -->
+    <div class="card">
+      <h2>Kunal Jadhav (Room 4)</h2>
+      <div class="info">Rent: ₹4100</div>
+      <div class="info">Electricity: ₹720</div>
+      <div class="info paid">Status: Paid</div>
+      <button class="button" onclick="generatePDF('Kunal Jadhav', 'Room 4', 4100, 720)">Download Receipt</button>
+      <button class="toggle-history" onclick="toggleHistory(this)">View History</button>
+      <div class="history">
+        <div class="history-item">Jul 2025: ₹4100 + ₹690 (Paid)</div>
+        <div class="history-item">Jun 2025: ₹4100 + ₹670 (Paid)</div>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    // Show/Hide history
     function toggleHistory(btn) {
       const history = btn.nextElementSibling;
       const isVisible = history.style.display === 'block';
@@ -120,7 +161,6 @@
       btn.innerText = isVisible ? 'View History' : 'Hide History';
     }
 
-    // Generate PDF receipt
     async function generatePDF(name, room, rent, elec) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
