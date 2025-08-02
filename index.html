@@ -153,34 +153,66 @@
 
   </div>
 
-  <script>
-    function toggleHistory(btn) {
-      const history = btn.nextElementSibling;
-      const isVisible = history.style.display === 'block';
-      history.style.display = isVisible ? 'none' : 'block';
-      btn.innerText = isVisible ? 'View History' : 'Hide History';
-    }
+<script>
+  function toggleHistory(btn) {
+    const history = btn.nextElementSibling;
+    const isVisible = history.style.display === 'block';
+    history.style.display = isVisible ? 'none' : 'block';
+    btn.innerText = isVisible ? 'View History' : 'Hide History';
+  }
 
-    async function generatePDF(name, room, rent, elec) {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      const date = new Date().toLocaleDateString();
+  async function generatePDF(name, room, rent, elec) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const date = new Date().toLocaleDateString();
+    const total = rent + elec;
 
-      doc.setFontSize(16);
-      doc.text("Rental Receipt - Aug 2025", 20, 20);
-      doc.setFontSize(12);
-      doc.text(`Date: ${date}`, 20, 30);
-      doc.text(`Name: ${name}`, 20, 40);
-      doc.text(`Room: ${room}`, 20, 50);
-      doc.text(`Rent: ₹${rent}`, 20, 60);
-      doc.text(`Electricity: ₹${elec}`, 20, 70);
-      doc.text(`Total Paid: ₹${rent + elec}`, 20, 80);
-      doc.text("Status: Paid", 20, 90);
-      doc.text("Thank you for your payment.", 20, 105);
+    // Title
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.text("🏠 Rental Payment Receipt", 60, 20);
 
-      doc.save(`${name.replace(/\s/g, '_')}_Receipt_Aug2025.pdf`);
-    }
-  </script>
+    // Info Section
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Date: ${date}`, 15, 35);
+    doc.text(`Name: ${name}`, 15, 43);
+    doc.text(`Room: ${room}`, 15, 51);
+
+    // Line
+    doc.setLineWidth(0.5);
+    doc.line(15, 58, 195, 58);
+
+    // Payment Details
+    doc.setFont("helvetica", "bold");
+    doc.text("Description", 25, 70);
+    doc.text("Amount (₹)", 150, 70);
+
+    doc.setFont("helvetica", "normal");
+    doc.text("Monthly Rent", 25, 80);
+    doc.text(`${rent}`, 150, 80);
+
+    doc.text("Electricity Bill", 25, 90);
+    doc.text(`${elec}`, 150, 90);
+
+    doc.line(15, 100, 195, 100);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("Total Paid", 25, 110);
+    doc.text(`₹${total}`, 150, 110);
+
+    doc.setTextColor(0, 128, 0);
+    doc.text("✔ Status: Paid", 25, 125);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "italic");
+    doc.setTextColor(100);
+    doc.text("Thank you for your payment.", 65, 140);
+
+    doc.save(`${name.replace(/\s/g, '_')}_Receipt_Aug2025.pdf`);
+  }
+</script>
+
 
 </body>
 </html>
