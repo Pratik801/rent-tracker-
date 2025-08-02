@@ -170,49 +170,53 @@
     // Title
     doc.setFontSize(18);
     doc.setFont("helvetica", "bold");
-    doc.text("🏠 Rental Payment Receipt", 60, 20);
+    doc.text("🏠 Rental Payment Receipt", 70, 20, { align: "center" });
 
     // Info Section
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
-    doc.text(`Date: ${date}`, 15, 35);
-    doc.text(`Name: ${name}`, 15, 43);
-    doc.text(`Room: ${room}`, 15, 51);
+    doc.text(`Date: ${date}`, 20, 35);
+    doc.text(`Tenant Name: ${name}`, 20, 43);
+    doc.text(`Room Number: ${room}`, 20, 51);
 
-    // Line
+    // Line separator
     doc.setLineWidth(0.5);
-    doc.line(15, 58, 195, 58);
+    doc.line(20, 58, 190, 58);
 
-    // Payment Details
+    // Payment Table Header
     doc.setFont("helvetica", "bold");
-    doc.text("Description", 25, 70);
-    doc.text("Amount (₹)", 150, 70);
+    doc.text("Description", 30, 70);
+    doc.text("Amount (₹)", 160, 70);
 
+    // Payment Rows
     doc.setFont("helvetica", "normal");
-    doc.text("Monthly Rent", 25, 80);
-    doc.text(`${rent}`, 150, 80);
+    doc.text("Monthly Rent", 30, 80);
+    doc.text(`${rent.toFixed(2)}`, 160, 80, { align: "right" });
 
-    doc.text("Electricity Bill", 25, 90);
-    doc.text(`${elec}`, 150, 90);
+    doc.text("Electricity Bill", 30, 90);
+    doc.text(`${elec.toFixed(2)}`, 160, 90, { align: "right" });
 
-    doc.line(15, 100, 195, 100);
-
+    // Total Row
+    doc.line(20, 98, 190, 98);
     doc.setFont("helvetica", "bold");
-    doc.text("Total Paid", 25, 110);
-    doc.text(`₹${total}`, 150, 110);
+    doc.text("Total Paid", 30, 108);
+    doc.text(`₹${total.toFixed(2)}`, 160, 108, { align: "right" });
 
-    doc.setTextColor(0, 128, 0);
-    doc.text("✔ Status: Paid", 25, 125);
+    // Status
+    doc.setTextColor(0, 150, 0);
+    doc.setFontSize(13);
+    doc.text("✔ Payment Status: Paid", 20, 125);
 
+    // Footer
     doc.setFontSize(10);
-    doc.setFont("helvetica", "italic");
     doc.setTextColor(100);
-    doc.text("Thank you for your payment.", 65, 140);
+    doc.setFont("helvetica", "italic");
+    doc.text("Thank you for your payment.", 70, 140, { align: "center" });
 
+    // Save
     doc.save(`${name.replace(/\s/g, '_')}_Receipt_Aug2025.pdf`);
   }
 </script>
-
 
 </body>
 </html>
