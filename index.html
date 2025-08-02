@@ -165,56 +165,32 @@
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     const date = new Date().toLocaleDateString();
-    const total = rent + elec;
 
-    // Title
-    doc.setFontSize(18);
-    doc.setFont("helvetica", "bold");
-    doc.text("🏠 Rental Payment Receipt", 70, 20, { align: "center" });
+    // Fix: Use better font for special characters
+    doc.setFont("times", "normal");
+    doc.setFontSize(16);
+    doc.text("Rental Receipt - Aug 2025", 20, 20);
 
-    // Info Section
     doc.setFontSize(12);
-    doc.setFont("helvetica", "normal");
-    doc.text(`Date: ${date}`, 20, 35);
-    doc.text(`Tenant Name: ${name}`, 20, 43);
-    doc.text(`Room Number: ${room}`, 20, 51);
+    doc.text(`Date: ${date}`, 20, 30);
+    doc.text(`Name: ${name}`, 20, 40);
+    doc.text(`Room: ${room}`, 20, 50);
 
-    // Line separator
-    doc.setLineWidth(0.5);
-    doc.line(20, 58, 190, 58);
+    // Format amounts properly
+    const rentFormatted = `₹${rent.toLocaleString("en-IN")}`;
+    const elecFormatted = `₹${elec.toLocaleString("en-IN")}`;
+    const totalFormatted = `₹${(rent + elec).toLocaleString("en-IN")}`;
 
-    // Payment Table Header
-    doc.setFont("helvetica", "bold");
-    doc.text("Description", 30, 70);
-    doc.text("Amount (₹)", 160, 70);
+    doc.text(`Rent: ${rentFormatted}`, 20, 60);
+    doc.text(`Electricity: ${elecFormatted}`, 20, 70);
+    doc.text(`Total Paid: ${totalFormatted}`, 20, 80);
+    doc.text("Status: Paid", 20, 90);
+    doc.text("Thank you for your payment.", 20, 105);
 
-    // Payment Rows
-    doc.setFont("helvetica", "normal");
-    doc.text("Monthly Rent", 30, 80);
-    doc.text(`${rent.toFixed(2)}`, 160, 80, { align: "right" });
+    // Fix filename for special characters
+    const safeName = name.replace(/[^\w\s]/gi, "").replace(/\s/g, "_");
 
-    doc.text("Electricity Bill", 30, 90);
-    doc.text(`${elec.toFixed(2)}`, 160, 90, { align: "right" });
-
-    // Total Row
-    doc.line(20, 98, 190, 98);
-    doc.setFont("helvetica", "bold");
-    doc.text("Total Paid", 30, 108);
-    doc.text(`₹${total.toFixed(2)}`, 160, 108, { align: "right" });
-
-    // Status
-    doc.setTextColor(0, 150, 0);
-    doc.setFontSize(13);
-    doc.text("✔ Payment Status: Paid", 20, 125);
-
-    // Footer
-    doc.setFontSize(10);
-    doc.setTextColor(100);
-    doc.setFont("helvetica", "italic");
-    doc.text("Thank you for your payment.", 70, 140, { align: "center" });
-
-    // Save
-    doc.save(`${name.replace(/\s/g, '_')}_Receipt_Aug2025.pdf`);
+    doc.save(`${safeName}_Receipt_Aug2025.pdf`);
   }
 </script>
 
