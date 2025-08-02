@@ -164,33 +164,38 @@
   async function generatePDF(name, room, rent, elec) {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-    const date = new Date().toLocaleDateString();
+    const date = new Date().toLocaleDateString('en-IN');
 
-    // Fix: Use better font for special characters
-    doc.setFont("times", "normal");
-    doc.setFontSize(16);
-    doc.text("Rental Receipt - Aug 2025", 20, 20);
+    // Format numbers as Indian currency
+    const formattedRent = new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR'
+    }).format(rent);
+
+    const formattedElec = new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR'
+    }).format(elec);
+
+    const formattedTotal = new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR'
+    }).format(rent + elec);
+
+    doc.setFontSize(18);
+    doc.text("🏠 Rental Payment Receipt", 20, 20);
 
     doc.setFontSize(12);
-    doc.text(`Date: ${date}`, 20, 30);
-    doc.text(`Name: ${name}`, 20, 40);
-    doc.text(`Room: ${room}`, 20, 50);
+    doc.text(`📅 Date: ${date}`, 20, 30);
+    doc.text(`👤 Name: ${name}`, 20, 40);
+    doc.text(`🚪 Room No: ${room}`, 20, 50);
+    doc.text(`💰 Rent: ${formattedRent}`, 20, 60);
+    doc.text(`⚡ Electricity: ${formattedElec}`, 20, 70);
+    doc.text(`🔢 Total Paid: ${formattedTotal}`, 20, 80);
+    doc.text("✅ Status: Paid", 20, 90);
+    doc.text("🙏 Thank you for your payment!", 20, 105);
 
-    // Format amounts properly
-    const rentFormatted = `₹${rent.toLocaleString("en-IN")}`;
-    const elecFormatted = `₹${elec.toLocaleString("en-IN")}`;
-    const totalFormatted = `₹${(rent + elec).toLocaleString("en-IN")}`;
-
-    doc.text(`Rent: ${rentFormatted}`, 20, 60);
-    doc.text(`Electricity: ${elecFormatted}`, 20, 70);
-    doc.text(`Total Paid: ${totalFormatted}`, 20, 80);
-    doc.text("Status: Paid", 20, 90);
-    doc.text("Thank you for your payment.", 20, 105);
-
-    // Fix filename for special characters
-    const safeName = name.replace(/[^\w\s]/gi, "").replace(/\s/g, "_");
-
-    doc.save(`${safeName}_Receipt_Aug2025.pdf`);
+    doc.save(`${name.replace(/\s/g, '_')}_Receipt_Aug2025.pdf`);
   }
 </script>
 
