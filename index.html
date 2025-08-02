@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rental Bill Tracker</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #eafaf1;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 128, 0, 0.2);
+    }
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+    }
+    .card {
+      border: 1px solid #ccc;
+      border-left: 5px solid #2e7d32;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      background: #f9fff9;
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+    .info {
+      margin: 8px 0;
+    }
+    .paid {
+      color: green;
+      font-weight: bold;
+    }
+    .button {
+      background: #4caf50;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    @media screen and (max-width: 600px) {
+      .card h2 {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Rental & Electricity Bills - Aug 2025</h1><div class="card" id="tenant1">
+  <h2>Ram Pawar (Room 1)</h2>
+  <div class="info">Rent: ₹4000</div>
+  <div class="info">Electricity: ₹700</div>
+  <div class="info paid">Status: Paid</div>
+  <button class="button" onclick="generatePDF('Ram Pawar', 'Room 1', 4000, 700)">Download Receipt</button>
+</div>
+
+<div class="card" id="tenant2">
+  <h2>Sunita Deshmukh (Room 2)</h2>
+  <div class="info">Rent: ₹4500</div>
+  <div class="info">Electricity: ₹650</div>
+  <div class="info paid">Status: Paid</div>
+  <button class="button" onclick="generatePDF('Sunita Deshmukh', 'Room 2', 4500, 650)">Download Receipt</button>
+</div>
+
+<div class="card" id="tenant3">
+  <h2>Amit Kale (Room 3)</h2>
+  <div class="info">Rent: ₹4200</div>
+  <div class="info">Electricity: ₹780</div>
+  <div class="info paid">Status: Paid</div>
+  <button class="button" onclick="generatePDF('Amit Kale', 'Room 3', 4200, 780)">Download Receipt</button>
+</div>
+
+<div class="card" id="tenant4">
+  <h2>Pooja Jadhav (Room 4)</h2>
+  <div class="info">Rent: ₹3900</div>
+  <div class="info">Electricity: ₹720</div>
+  <div class="info paid">Status: Paid</div>
+  <button class="button" onclick="generatePDF('Pooja Jadhav', 'Room 4', 3900, 720)">Download Receipt</button>
+</div>
+
+  </div>  <script>
+    function generatePDF(name, room, rent, electricity) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const date = new Date().toLocaleDateString('en-IN');
+
+      doc.setFontSize(16);
+      doc.text("RENT RECEIPT - AUG 2025", 20, 20);
+      doc.setFontSize(12);
+      doc.text(Tenant: ${name} (${room}), 20, 40);
+      doc.text(Rent: ₹${rent}, 20, 50);
+      doc.text(Electricity Bill: ₹${electricity}, 20, 60);
+      doc.text(Status: Paid, 20, 70);
+      doc.text(Date: ${date}, 20, 80);
+      doc.line(20, 90, 190, 90);
+      doc.text("Thank you for your payment!", 20, 100);
+
+      doc.save(${name.replace(/ /g, '_')}_Receipt_Aug2025.pdf);
+    }
+  </script></body>
+</html>
